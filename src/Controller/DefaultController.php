@@ -6,15 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-Class ProgramController extends AbstractController
+Class DefaultController extends AbstractController
 {
     /**
-     * @Route("/programs/", name="program_index")
+     * @Route("/", name="index")
      */
     public function index(): Response
     {
-        return $this->render('program/index.html.twig', [
-           'website' => 'Wild Séries',
-        ]);
+        return $this->render('default/index.html.twig');
     }
 }
