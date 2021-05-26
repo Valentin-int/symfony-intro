@@ -1,10 +1,24 @@
-<!doctype html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <title>Wild Series</title>
-</head>
-<body>
-   <h1>{{ website }} index</h1>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1>Programs</h1>
+    <div class="container">
+        <div class="row">
+            {% for program in programs %}
+                <div class="card col-sm-3 ml-5 mt-5 bg-primary border-primary" style="width: 10rem;">
+                    <img src="{{ program.poster }}" class="card-img-top" alt="program_image">
+                    <div class="card-body">
+                        <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
+                        <p class="card-text">{{ program.summary }}</p>
+                        <a href="{{ path("program_show", { id: program.id }) }}" class="btn btn-secondary">En savoir plus</a>
+                    </div>
+                </div>
+            {% else %}
+                Aucune série trouvée.
+            {% endfor %}
+        </div>
+
+        <a href="{{ path('index') }}">
+            Retour à l'accueil
+        </a>
+    </div>
+{% endblock %}

@@ -11,8 +11,14 @@ $lightCreme: #E9D297;
 
 body {
     background-color: $primary;
+    color: $lightCreme;
 }
 
 .navbar {
     background-color: $secondary;
+}
+
+a {
+    text-decoration: none;
+    color: $secondary;
 }

@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            {% for programs in programs %}
+                <div class="card col-sm-3 ml-5 mt-5 bg-primary border-primary" style="width: 10rem;">
+                    <h1>Program n°{{ programs.id }}</h1>
+                    <img src="{{ programs.poster }}" class="card-img-top" alt="program_image">
+                    <div class="card-body">
+                        <h2>{{ loop.index }} / {{ programs.title }} - Catégorie : {{ programs.category.name }}</h2>
+                        <p class="card-text">{{ programs.summary }}</p>
+                        <a href="{{ path("program_show", { id: programs.id }) }}" class="btn btn-secondary">En savoir plus</a>
+                    </div>
+                </div>
+            {% else %}
+                Aucune série trouvée.
+            {% endfor %}
+        </div>
+        <a href="{{ path('category_index') }}">Retour au catégories</a>
+    </div>
+{% endblock %}
