@@ -1,0 +1,7 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<h1 class="mt-5 ml-5">Saison {{ season.number }}</h1>
+<div class="col-12 mt-2">
+    <a href="{{ path('program_season_show', { programId: program.id, seasonId: season.id }) }}">Saison {{ season.number }}</a>
+</div>
+{% endblock %}
