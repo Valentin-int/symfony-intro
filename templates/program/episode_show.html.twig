@@ -1,9 +1,9 @@
 {% extends "base.html.twig" %}
 {% block body %}
 <h1 class="mt-5 ml-5">{{ program.title }} - saison {{ season.number }}</h1>
-<h1 class="mt-2 ml-5">{{ episode.title }}</h1>
+<h1 class="mt-2 ml-5">{{ episode.title }} - {{ episode.number }}</h1>
 <p class="mt-5 ml-5">{{ episode.synopsis }}</p>
 <div class="ml-5">
-    <a href="{{ path('program_season_show', { programId: program.id, seasonId: season.id }) }}">Retour</a>
+    <a href="{{ path('program_season_show', { program_id: program.id, season_id: season.id }) }}">Retour</a>
 </div>
 {% endblock %}
