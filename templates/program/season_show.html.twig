@@ -1,7 +1,15 @@
 {% extends "base.html.twig" %}
 {% block body %}
-<h1 class="mt-5 ml-5">Saison {{ season.number }}</h1>
-<div class="col-12 mt-2">
-    <a href="{{ path('program_season_show', { programId: program.id, seasonId: season.id }) }}">Saison {{ season.number }}</a>
+<h1 class="mt-5 ml-5">{{ program.title }} - saison {{ season.number }}</h1>
+<p class="mt-3 ml-5">{{ season.description }} - {{ season.year }}</p>
+
+{% for episode in episodes %}
+    <div class="col-12 mt-2 ml-5">
+        <a href="{{ path('program_episode_show', { programId: program.id, seasonId: season.id, episodeId: episode.id }) }}">Episode {{ episode.number }}</a>
+    </div>  
+{% endfor %}
+
+<div class='mt-5 ml-5'>
+    <a href="{{ path("program_show", { id: program.id }) }}">Retour au résumer</a>
 </div>
 {% endblock %}
