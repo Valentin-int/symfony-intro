@@ -12,6 +12,16 @@
                     <a href="{{ path('program_season_show', { program_id: program.id, season_id: season.id }) }}">Saison {{ season.number }}</a>
                 </div>
             {% endfor %}
+            <div class="mt-5">
+                <strong>Acteurs :</strong>
+                <ul>
+                {% for actor in program.actors %}
+                    <a href="{{ path('actor_show', { id: actor.id }) }}" class="col-md-12 d-flex justify-content-start mt-2">{{ actor.name }}</a>
+                {% else %}
+                    <li>Aucun acteur pour cette série</li>
+                {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
     <div class="mt-5">

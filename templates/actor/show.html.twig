@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="mt-5 ml-5">
+    <h1>{{ actor.name }}</h1>
+</div>
+<div class='mt-5 ml-5'>
+    <p>Séries dans lesquelles cet acteur a joué :</p>
+    {% for program in actor.programs %}
+        <div class='mt-2 ml-5'>
+            <a href="{{ path("program_show", { program_id: program.id }) }}">{{ program.title }}</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
