@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,11 +21,14 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
+     * @Assert\Length(max="100", maxMessage="Le nom saisie {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères")
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Program", mappedBy="category")
+     * @Assert\NotBlank()
      */
     private $programs;
 
