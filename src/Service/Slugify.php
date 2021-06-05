@@ -25,6 +25,10 @@ class Slugify
 
     public function generate(string $input) : string
     {
-        return mb_strtolower(preg_replace(array_keys(self::SPECIAL_CARACTERE),array_values(self::SPECIAL_CARACTERE), $input));
+        $removeSpace = explode(" ", $input);
+        $correctionWord = preg_replace(array_keys(self::SPECIAL_CARACTERE), array_values(self::SPECIAL_CARACTERE), $removeSpace);
+        $addTreatyInWord = implode("-", $correctionWord);
+        $correctionSentence = trim(strtolower($addTreatyInWord));
+        return $correctionSentence;
     }
 }
