@@ -8,3 +8,4 @@ Watch quest : 14 : https://www.loom.com/share/944de5c8eb884394ae3f56e5507d3302
 Watch quest : 15 : https://www.loom.com/share/9bb9eae1ccd841e5810c9fcb7abf1c23
 Watch quest : 16 : https://www.loom.com/share/90f3b25884f74ea4a0fb0d0faf86f904
 Watch quest : 17 : https://www.loom.com/share/e344e0782dea44a1bb45c8ef5b1551a4
+Watch quest : 19 : https://www.loom.com/share/e628107de6d24c8aa2a89896de566ee1
