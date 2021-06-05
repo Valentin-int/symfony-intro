@@ -4,6 +4,6 @@
 <h1 class="mt-2 ml-5">{{ episode.title }} - {{ episode.number }}</h1>
 <p class="mt-5 ml-5">{{ episode.synopsis }}</p>
 <div class="ml-5">
-    <a href="{{ path('program_season_show', { program_id: program.id, season_id: season.id }) }}">Retour</a>
+    <a href="{{ path('program_season_show', { program_slug: program.slug, season_id: season.id }) }}">Retour</a>
 </div>
 {% endblock %}

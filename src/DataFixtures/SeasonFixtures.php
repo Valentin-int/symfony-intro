@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Season;
-use App\Entity\Program;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -16,16 +15,16 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < 5; $i++) {
-            $season = new Season();
-            $season->setNumber($i);
-            $season->setYear(self::YEAR + $i);
-            $season->setDescription(self::DESCRIPTION . strval($i));
-            for ($j = 0; $j < count([ProgramFixtures::class]); $j++) {
-                $season->setProgram($this->getReference('program_' . $j));
+        for ($g = 0; $g < 5; $g++) {
+            for ($i = 0; $i < 5; $i++) {
+                $season = new Season();
+                $season->setNumber($i);
+                $season->setYear(self::YEAR + $i);
+                $season->setDescription(self::DESCRIPTION . strval($i));
+                $season->setProgram($this->getReference('program_' . $g));
+                $manager->persist($season);
             }
-            $manager->persist($season);
-            $this->addReference('season_' . $i, $season);
+            $this->addReference('season_' . $g, $season);
         }
         $manager->flush();
     }

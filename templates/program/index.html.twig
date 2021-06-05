@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
                         <p class="card-text">{{ program.summary }}</p>
-                        <a href="{{ path("program_show", { program_id: program.id }) }}" class="btn btn-secondary d-flex justify-content-center">En savoir plus</a>
+                        <a href="{{ path("program_show", { program_slug: program.slug }) }}" class="btn btn-secondary d-flex justify-content-center">En savoir plus</a>
                     </div>
                 </div>
             {% else %}
