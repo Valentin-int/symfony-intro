@@ -6,4 +6,16 @@
 <div class="ml-5">
     <a href="{{ path('program_season_show', { program_slug: program.slug, season_id: season.id }) }}">Retour</a>
 </div>
+ {% for comment in episode.comments | reverse %}
+<p class="mt-5 ml-5">Commentaire : {{ comment.comment }}</br>
+Note : {{ comment.rate }}</br>
+Ecris par : {{ comment.user.username }}</p>
+{% endfor %}
+{% if app.user %}
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input class="btn btn-secondary" type='submit' value='Add comment'>
+    {{ form_end(form) }}
+{% else %}
+{% endif %}
 {% endblock %}
