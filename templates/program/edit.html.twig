@@ -1,0 +1,8 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input class="btn btn-secondary" type='submit' value='Modifier'>
+    {{ form_end(form) }}
+{% endblock %}

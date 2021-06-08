@@ -14,6 +14,7 @@ use App\Entity\Episode;
 use App\Form\CommentType;
 use App\Form\ProgramType;
 use App\Service\Slugify;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
@@ -39,6 +40,7 @@ class ProgramController extends AbstractController
      */
     public function new(Request $request,  Slugify $slugify, MailerInterface $mailer): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
@@ -51,6 +53,7 @@ class ProgramController extends AbstractController
             // Persist Category Object
             $entityManager->persist($program);
             // Flush the persisted object
+            $program->setOwner($this->getUser());
             $entityManager->flush();
             // Finally redirect to categories list
             $email = (new Email())
@@ -135,6 +138,35 @@ class ProgramController extends AbstractController
             'episode' => $episode,
             "form" => $form->createView(),
             "comment" => $comment,
+        ]);
+    }
+
+    /**
+     * @Route("program/{edit_slug}/edit", name="program_edit", methods={"GET","POST"})
+     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"edit_slug": "slug"}})
+     */
+    public function edit(Request $request, Program $program, Slugify $slugify): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+        // Check wether the logged in user is the owner of the program
+        if (!($this->getUser() == $program->getOwner())) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw new AccessDeniedException('Only the owner can edit the program!');
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugify->generate($program->getTitle());
+            $program->setSlug($slug);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('program_index');
+        }
+
+        return $this->render('program/edit.html.twig', [
+            'program' => $program,
+            'form' => $form->createView(),
         ]);
     }
 }

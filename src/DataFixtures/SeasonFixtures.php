@@ -9,22 +9,45 @@ use Doctrine\Persistence\ObjectManager;
 
 class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
-    private const YEAR = 2010;
-
-    private const DESCRIPTION = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-
+    const SAISONS = [
+        '1' => [
+            'number' => 1,
+            'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,',
+            'year' => 2010
+        ],
+        '2' => [
+            'number' => 2,
+            'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,',
+            'year' => 2011
+        ],
+        '3' => [
+            'number' => 3,
+            'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,',
+            'year' => 2012
+        ],
+        '4' => [
+            'number' => 4,
+            'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,',
+            'year' => 2016
+        ],
+        '5' => [
+            'number' => 5,
+            'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,',
+            'year' => 2202
+        ],
+    ];
     public function load(ObjectManager $manager)
     {
-        for ($g = 0; $g < 5; $g++) {
-            for ($i = 0; $i < 5; $i++) {
+        foreach (ProgramFixtures::PROGRAMS as $title => $description) {
+            foreach (self::SAISONS as $number => $seasonDescription) {
                 $season = new Season();
-                $season->setNumber($i);
-                $season->setYear(self::YEAR + $i);
-                $season->setDescription(self::DESCRIPTION . strval($i));
-                $season->setProgram($this->getReference('program_' . $g));
+                $season->setNumber($seasonDescription['number']);
+                $season->setYear($seasonDescription['year']);
+                $season->setDescription($seasonDescription['description']);
+                $season->setProgram($this->getReference('program_' . $title));
                 $manager->persist($season);
+                $this->addReference('season_' . $title . '_' . $number, $season);
             }
-            $this->addReference('season_' . $g, $season);
         }
         $manager->flush();
     }
