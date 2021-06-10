@@ -46,10 +46,16 @@ class User implements UserInterface
      */
     private $programs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Actor::class, mappedBy="owner")
+     */
+    private $actors;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->programs = new ArrayCollection();
+        $this->actors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -187,6 +193,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($program->getOwner() === $this) {
                 $program->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Actor[]
+     */
+    public function getActors(): Collection
+    {
+        return $this->actors;
+    }
+
+    public function addActor(Actor $actor): self
+    {
+        if (!$this->actors->contains($actor)) {
+            $this->actors[] = $actor;
+            $actor->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActor(Actor $actor): self
+    {
+        if ($this->actors->removeElement($actor)) {
+            // set the owning side to null (unless already changed)
+            if ($actor->getOwner() === $this) {
+                $actor->setOwner(null);
             }
         }
 

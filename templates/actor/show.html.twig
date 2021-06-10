@@ -3,13 +3,22 @@
 {% block body %}
 <div class="mt-5 ml-5">
     <h1>{{ actor.name }}</h1>
+    {% if is_granted("ROLE_ADMIN") %}
+        <h2 class="col-sm-3 mt-5 d-flex justify-content-end" ><a href="{{ path('actor_edit', {'id': actor.id}) }}">edit</a></h2>
+    {% endif %}
 </div>
 <div class='mt-5 ml-5'>
     <p>Séries dans lesquelles cet acteur a joué :</p>
+    <img src="../uploads/{{ actor.poster }}" class="card-img-top col-sm-1" alt="actor_image">
     {% for program in actor.programs %}
         <div class='mt-2 ml-5'>
-            <a href="{{ path("program_show", { program_id: program.id }) }}">{{ program.title }}</a>
+            <a href="{{ path("program_show", { program_slug: program.slug }) }}">{{ program.title }}</a>
         </div>
     {% endfor %}
+    <h2 class="col-sm-3 mt-5" ><a href="{{ path('actor_index') }}">back to list</a></h2>
+    {% if is_granted("ROLE_ADMIN") %}
+        <div class="col-sm-3 d-flex justify-content-end"{{ include('actor/_delete_form.html.twig') }}</div>
+    {% endif %}
+
 </div>
 {% endblock %}
