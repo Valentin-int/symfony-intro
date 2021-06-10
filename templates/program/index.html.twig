@@ -5,7 +5,7 @@
         <div class="row d-flex justify-content-center">
             {% for program in programs %}
                 <div class="card col-sm-3 ml-5 mt-5 bg-primary border-primary" style="width: 10rem;">
-                    <img src="{{ program.poster }}" class="card-img-top" alt="program_image">
+                    <img src="../uploads/{{ program.poster }}" class="card-img-top" alt="program_image">
                     <div class="card-body">
                         <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
                         <p class="card-text">{{ program.summary }}</p>
