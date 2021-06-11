@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
+use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\ProgramType;
 use App\Service\Slugify;
@@ -124,7 +125,7 @@ class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()) {
-                $comment->setUser($this->getUser());
+                $comment->setOwner($this->getUser());
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($comment);
                 $entityManager->flush();
@@ -171,17 +172,27 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/comment/{comment_id}", name="comment_delete", methods={"GET"})
+     * @Route("/comment/{comment_id}", name="comment_delete", methods={"GET","POST"})
      * @ParamConverter("comment", class="App\Entity\Comment", options={"mapping": {"comment_id": "id"}})
      */
     public function delete(Request $request, Comment $comment): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($comment);
-            $entityManager->flush();
+
+        if ($this->getUser() == $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => "admin@monsite.com"]) || $this->getUser() == $comment->getOwner()) {
+            if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($comment);
+                $entityManager->flush();
+            }
+        } else {
+            // If not the owner, throws a 403 Access Denied exception
+            throw new AccessDeniedException('Only the owner can delete the comment!');
         }
 
-        return $this->redirect($request->getUri());
+        return $this->redirectToRoute('program_episode_show', [
+            'program_slug' => $comment->getEpisode()->getSeason()->getProgram()->getSlug(),
+            'season_id' => $comment->getEpisode()->getSeason()->getId(),
+            'episode_slug' => $comment->getEpisode()->getSlug(),
+        ]);
     }
 }

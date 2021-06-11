@@ -4,7 +4,7 @@
     <div class="media mt-5">
         <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
         <div class="media-body">
-            {% if is_granted("ROLE_ADMIN") %}
+            {%  if app.user and is_granted("ROLE_CONTRIBUTOR")  %}
                 <a href="{{ path('program_edit', { 'edit_slug': program.slug} ) }}">Éditer</a>
             {% endif %}
             <h1 class="mt-0">{{ program.title }}</h1>
