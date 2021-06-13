@@ -3,6 +3,10 @@
     <h1 class="mt-4 ml-5">Programs</h1>
     <div class="container">
         <div class="row d-flex justify-content-center">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button>Search</button>
+            {{ form_end(form) }}
             {% for program in programs %}
                 <div class="card col-sm-3 ml-5 mt-5 bg-primary border-primary" style="width: 10rem;">
                     <img src="../uploads/{{ program.poster }}" class="card-img-top" alt="program_image">

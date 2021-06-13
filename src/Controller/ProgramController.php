@@ -14,8 +14,11 @@ use App\Entity\Episode;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\ProgramType;
+use App\Form\SearchProgramFormType;
+use App\Repository\ProgramRepository;
 use App\Service\Slugify;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
@@ -24,15 +27,21 @@ class ProgramController extends AbstractController
     /**
      * @Route("/program/", name="program_index")
      */
-    public function index(): Response
+    public function index(Request $request, ProgramRepository $programRepository): Response
     {
-        $programs = $this->getDoctrine()
-            ->getRepository(Program::class)
-            ->findAll();
-
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->getData();
+            $programs = $programRepository->findLikeName($search);
+        } else {
+            $programs = $programRepository->findAll();
+        }
+    
         return $this->render('program/index.html.twig', [
-            'website' => 'Wild Séries',
-            'programs' => $programs
+            'programs' => $programs,
+            'form' => $form->createView(),
         ]);
     }
 
