@@ -53,11 +53,18 @@ class User implements UserInterface
      */
     private $actors;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Program::class, inversedBy="users")
+     * @ORM\JoinTable(name="watchlist")
+     */
+    private $watchlist;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->programs = new ArrayCollection();
         $this->actors = new ArrayCollection();
+        $this->watchlist = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -229,5 +236,34 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Program[]
+     */
+    public function getWatchlist(): Collection
+    {
+        return $this->watchlist;
+    }
+
+    public function addToWatchlist(Program $watchlist): self
+    {
+        if (!$this->watchlist->contains($watchlist)) {
+            $this->watchlist[] = $watchlist;
+        }
+
+        return $this;
+    }
+
+    public function removeFromWatchlist(Program $watchlist): self
+    {
+        $this->watchlist->removeElement($watchlist);
+
+        return $this;
+    }
+
+    public function isInWatchlist(Program $program) : bool
+    {
+        return $this->getWatchlist()->contains($program) ? true : false;
     }
 }

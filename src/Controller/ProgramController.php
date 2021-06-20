@@ -17,6 +17,7 @@ use App\Form\ProgramType;
 use App\Form\SearchProgramFormType;
 use App\Repository\ProgramRepository;
 use App\Service\Slugify;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Mailer\MailerInterface;
@@ -31,14 +32,14 @@ class ProgramController extends AbstractController
     {
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $search = $form->getData();
             $programs = $programRepository->findLikeName($search);
         } else {
             $programs = $programRepository->findAll();
         }
-    
+
         return $this->render('program/index.html.twig', [
             'programs' => $programs,
             'form' => $form->createView(),
@@ -204,6 +205,26 @@ class ProgramController extends AbstractController
             'program_slug' => $comment->getEpisode()->getSeason()->getProgram()->getSlug(),
             'season_id' => $comment->getEpisode()->getSeason()->getId(),
             'episode_slug' => $comment->getEpisode()->getSlug(),
+        ]);
+    }
+
+    /**
+     * @Route("program/{program_id}/watchlist", name="watchlist_add", methods={"GET","POST"})
+     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"program_id": "id"}})
+     */
+    public function addToWatchlist(Program $program, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->getUser()->getWatchlist()->contains($program) == true ) {
+            $this->getUser()->removeFromWatchlist($program);
+        } else {
+        $this->getUser()->addToWatchlist($program);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($program);
+        }
+        $entityManager->flush();
+
+        return $this->redirectToRoute('program_show', [
+            'program_slug' => $program->getSlug()
         ]);
     }
 }

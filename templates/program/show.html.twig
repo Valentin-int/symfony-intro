@@ -2,7 +2,10 @@
 {% block body %}
 <div class='container'>
     <div class="media mt-5">
-        <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+        <a href="{{ path('watchlist_add', {program_id: program.id})}}">
+            <i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+        </a>
+        <img class="align-self-start mr-3 offset-1" src="{{program.poster}}" alt="{{ program.title }} poster">
         <div class="media-body">
             {%  if app.user and is_granted("ROLE_CONTRIBUTOR")  %}
                 <a href="{{ path('program_edit', { 'edit_slug': program.slug} ) }}">Éditer</a>
