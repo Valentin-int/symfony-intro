@@ -65,6 +65,7 @@ class ProgramController extends AbstractController
             // Flush the persisted object
             $program->setOwner($this->getUser());
             $entityManager->flush();
+            $this->addFlash('success', 'The new program has been created');
             // Finally redirect to categories list
             $email = (new Email())
                 ->from($this->getParameter('mailer_from'))
@@ -170,6 +171,7 @@ class ProgramController extends AbstractController
             $slug = $slugify->generate($program->getTitle());
             $program->setSlug($slug);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'The new program has been updated');
 
             return $this->redirectToRoute('program_index');
         }
