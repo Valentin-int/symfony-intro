@@ -2,7 +2,7 @@
 {% block body %}
 <div class='container'>
     <div class="media mt-5">
-        <a href="{{ path('watchlist_add', {program_id: program.id})}}">
+        <a id="watchlist" href="{{ path('watchlist_add', {program_id: program.id})}}">
             <i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
         </a>
         <img class="align-self-start mr-3 offset-1" src="{{program.poster}}" alt="{{ program.title }} poster">
