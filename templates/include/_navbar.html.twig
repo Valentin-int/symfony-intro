@@ -6,22 +6,21 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
-				<a class="nav-link active" aria-current="page" href="/">Accueil</a>
+				<a class="nav-link active" aria-current="page" href="/">{{ 'navbar.home'|trans }}</a>
 				<a class="nav-link" href="{{ path('program_index') }}">Programs</a>
 				<a class="nav-link" href="{{ path('category_index') }}">Category</a>
 			</div>
             {% if app.user %}
-				<li><a class="nav-link btn" href="{{ path('app_logout') }}">Déconnexion</a></li>
+				<li><a class="nav-link btn" href="{{ path('app_logout') }}">{{ 'account.logout'|trans }}</a></li>
 				<li><a class="nav-link btn" href="{{ path('app_profile') }}">Mon compte</a></li>
 				{{ app.user.email }}
             {% else %}
 				<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle btn" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Connexion/Inscription
-				</a>
+					{{ 'account.login'|trans }}
 				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<li><a class="nav-link btn" href="{{ path('app_login') }}">Connexion</a></li>
-					<li><a class="nav-link btn" href="{{ path('app_register') }}">Créer un compte</a></li>
+					<li><a class="nav-link btn" href="{{ path('app_login') }}">{{ 'account.sign_in'|trans }}</a></li>
+					<li><a class="nav-link btn" href="{{ path('app_register') }}">{{ 'account.register'|trans }}</a></li>
 				</ul>
 				</li>			
             {% endif %}

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/actor")
+ * @Route("actor")
  */
 class ActorController extends AbstractController
 {
