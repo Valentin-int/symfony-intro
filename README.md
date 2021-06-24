@@ -15,4 +15,5 @@ Watch quest : 22 : https://www.loom.com/share/70dd0bcb44984c599589395837d9d8fd
 Watch quest : 23 : https://www.loom.com/share/805f699b56ab41e981655c175cfb3a02
 Watch quest : 24 : https://www.loom.com/share/7d3bdf8de2f34a8eafc3c74ac3802b36
 Watch quest : 25.1 : https://www.loom.com/share/0bddbc0e48b7495ca2ba7b1ca28eb16b
+Watch quest : 25.2 : https://www.loom.com/share/bd304a0b09b742c6b46ecbf8600bb190
 Watch quest : 28 : https://www.loom.com/share/12f534b69b3a44d5b3cb34153f357298
